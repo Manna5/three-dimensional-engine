@@ -1,0 +1,63 @@
+<body onkeydown="moveCamera(event.keyCode)">
+<canvas width="400px" height="400px"></canvas>
+<script>
+ var img=document.getElementsByTagName("canvas")[0].getContext("2d");
+ var cameraX=6;
+ var cameraY=6;
+ function set2d(x,y,color){
+  color=color || "black";
+  img.fillStyle=color;
+  img.fillRect(x*5,y*5,5,5);
+ }
+ function set3d(x,y,z,color){
+  //Set 3D pixel ("tryxel")
+  color=color || "black";
+  set2d(x+z*(cameraX*0.1),y+z*(cameraY*0.1),color);
+ }
+ /*function rectangle(x,y,w,h,color){
+  color=color || "black";
+  for(var i=0;i<w;i++){
+   for(var j=0;j<h;j++){
+    if(i<1 || j<1 || i==w-1 || j==h-1){
+     set2d(x+i,y+j,color);
+    }
+   }
+  }
+ }*/
+ function cube(x,y,z,w,h,d,color){
+  //Draw a cube
+  color=color || "black";
+  for(var i=0;i<w;i++){
+   for(var j=0;j<h;j++){
+    for(var k=0;k<d;k++){
+     if(((i<1 || j<1 || i==w-1 || j==h-1) && (k<1 || k==d-1))
+        || (i<1 && j<1 || i==w-1 && j<1 || i<1 && j==h-1 || i==w-1 && j==h-1)){
+      set3d(x+i,y+j,z+k,color);
+     }
+    }
+   }
+  }
+ }
+ function draw(){
+  //Clear screen
+  img.clearRect(0,0,400,400);
+  //Draw your 3D shapes here
+  cube(5,5,5,20,20,20,"green");
+ }
+ function moveCamera(k){
+  //Move the camera
+  if(k==37){
+   cameraX--;
+  }else if(k==39){
+   cameraX++;
+  }else if(k==38){
+   cameraY--;
+  }else if(k==40){
+   cameraY++;
+  }
+  draw();
+ }
+ draw();
+</script>
+<p>Use arrows to move the camera</p>
+</body>
